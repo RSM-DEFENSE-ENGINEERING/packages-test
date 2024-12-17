@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+  aws-lambda-container:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - S1_API_TOKEN=${S1_API_TOKEN}
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
+      - AWS_REGION
+    env_file:
+      - .env
+    ports:
+      - "9000:8080" # Maps the AWS Lambda runtime API port to your localhost port
+
