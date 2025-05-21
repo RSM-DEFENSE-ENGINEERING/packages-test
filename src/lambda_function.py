@@ -1,18 +1,10 @@
 import os
 from download import download_file
+import boto3
 
 # REPO_PATH = "./SentinelOne-agent"
 REPO_PATH = "git@github.com:RSM-DEFENSE-ENGINEERING/SentinelOne-agent.git"
 DOWNLOAD_DIR = "/tmp/downloads"         # Directory to save the downloaded files
-
-
-def commit_installers(repo: Repo):
-    pull_latest(repo)
-    copy_new_files(DOWNLOAD_DIR, REPO_PATH)
-    stage_and_commit(repo)
-    push_changes(repo)
-    print("Git repository updated successfully!")
-
 
 def lambda_handler(event, context):
     """
@@ -45,9 +37,9 @@ def lambda_handler(event, context):
         #https://boto3.amazonaws.com/v1/documentation/api/latest/guide/s3-uploading-files.html
         s3 = boto3.resource('s3');
         s3_client = boto3.client('s3')
-        s3_client.upload_file(f"s1/{windows_group_one_file}", s1-rsmd-installers)
-        s3_client.upload_file(f"s1/{windows_group_two_file}", s1-rsmd-installers)
-        s3_client.upload_file(f"s1/{mac_group_file}", s1-rsmd-installers)
+        s3_client.upload_file(Filename=windows_group_one_file,Key=f"s1/{WINDOWS_GROUP_ONE_NAME}", Bucket="s1-rsmd-installers")
+        s3_client.upload_file(Filename=windows_group_two_file,Key=f"s1/{WINDOWS_GROUP_TWO_NAME}", Bucket="s1-rsmd-installers")
+        s3_client.upload_file(Filename=mac_group_file,Key=f"s1/{MAC_GROUP_NAME}", Bucket="s1-rsmd-installers")
         #ssh_key = get_ssh_key()
         #setup_ssh_agent(ssh_key)
         #print("SSH KEY RETRIEVED")
@@ -58,11 +50,3 @@ def lambda_handler(event, context):
     except Exception as e:
         print(f"Error: {e}")
         return {"status": "Failed", "error": str(e)}
-
-
-def main() -> None:
-    lambda_handler({}, {})
-
-
-if __name__ == "__main__":
-    main()
