@@ -1,10 +1,7 @@
-from dotenv import load_dotenv
 import os
-import requests
+import urllib3
 
-
-load_dotenv()
-
+http = urllib3.PoolManager()
 # Configuration Constants
 S1_TOKEN = os.environ['S1_API_TOKEN']
 DOWNLOAD_DIR = "/tmp/downloads"         # Directory to save the downloaded files
@@ -33,11 +30,14 @@ def download_file(url: str, dest: str) -> None:
 
     print(f"Downloading: {url}")
     print(headers['Authorization'])
-    response = requests.get(url, stream=True, headers=headers)
-    response.raise_for_status()  # Will raise an exception for HTTP errors
+    response = http.request('GET', url, headers=headers, preload_content=False)
 
-    with open(dest, "wb") as f:
-        for chunk in response.iter_content(chunk_size=8192):
+    with open(dest, 'wb') as f:
+        while True:
+            chunk = response.read(8192)
+            if not chunk:
+                break
             f.write(chunk)
 
+    response.release_conn()
     print(f"Downloaded: {dest}")
