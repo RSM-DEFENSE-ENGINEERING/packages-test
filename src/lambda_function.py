@@ -34,19 +34,28 @@ def lambda_handler(event, context):
     print("I\'m running")
 
     try:
-        download_file(WINDOWS_GROUP_ONE_URL, os.path.join(
-            DOWNLOAD_DIR, WINDOWS_GROUP_ONE_NAME))
+        windows_group_one_file = os.path.join(
+            DOWNLOAD_DIR, WINDOWS_GROUP_ONE_NAME)
+        download_file(WINDOWS_GROUP_ONE_URL, windows_group_one_file)
+        windows_group_two_file = os.path.join(
+            DOWNLOAD_DIR, WINDOWS_GROUP_TWO_NAME)
+        download_file(WINDOWS_GROUP_TWO_URL, windows_group_two_file)
+        mac_group_file = os.path.join(DOWNLOAD_DIR, MAC_GROUP_NAME)
+        download_file(MAC_GROUP_URL, mac_group_file)
 
-        download_file(WINDOWS_GROUP_TWO_URL, os.path.join(
-            DOWNLOAD_DIR, WINDOWS_GROUP_TWO_NAME))
-        download_file(MAC_GROUP_URL, os.path.join(
-            DOWNLOAD_DIR, MAC_GROUP_NAME))
-
-        ssh_key = get_ssh_key()
-        setup_ssh_agent(ssh_key)
-        print("SSH KEY RETRIEVED")
-        repo = get_repo(REPO_PATH)
-        commit_installers(repo)
+        #AWS S3 Instead
+        #Bucket Name: s1-rsmd-installers, key s1/ + filename
+        #https://boto3.amazonaws.com/v1/documentation/api/latest/guide/s3-uploading-files.html
+        s3 = boto3.resource('s3');
+        s3_client = boto3.client('s3')
+        s3_client.upload_file(f"s1/{windows_group_one_file}", s1-rsmd-installers)
+        s3_client.upload_file(f"s1/{windows_group_two_file}", s1-rsmd-installers)
+        s3_client.upload_file(f"s1/{mac_group_file}", s1-rsmd-installers)
+        #ssh_key = get_ssh_key()
+        #setup_ssh_agent(ssh_key)
+        #print("SSH KEY RETRIEVED")
+        #repo = get_repo(REPO_PATH)
+        #commit_installers(repo)
         # Add your file copying logic here if needed
         return {"status": "Success"}
     except Exception as e:
