@@ -1,8 +1,5 @@
-from github import copy_new_files, pull_latest, stage_and_commit, push_changes, get_repo
-from git import Repo
 import os
 from download import download_file
-from ssh_agent import get_ssh_key, setup_ssh_agent
 
 # REPO_PATH = "./SentinelOne-agent"
 REPO_PATH = "git@github.com:RSM-DEFENSE-ENGINEERING/SentinelOne-agent.git"
