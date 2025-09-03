@@ -18,17 +18,26 @@ def lambda_handler(event, context):
     WINDOWS_GROUP_TWO_URL = "https://usea1-001-mssp.sentinelone.net/web/api/v2.1/update/agent/packages?fileExtension=.msi&majorVersions=23.4&osArches=32 bit&osTypes=windows&sortBy=version&sortOrder=desc&status=ga"
     MAC_GROUP_URL = "https://usea1-001-mssp.sentinelone.net/web/api/v2.1/update/agent/packages?osTypes=macos&sortBy=version&sortOrder=desc&status=ga"
 
-    """NEW LINKS REQUESTED BY MITS"""
-    WINDOWS_GROUP_ONE_X86_URL = "https://usea1-001-mssp.sentinelone.net/web/api/v2.1/update/agent/packages?fileExtension=.msi&limit=1&osArches=64%20bit&osTypes=windows&skip=1&sortBy=version&sortOrder=desc&status=ga"
-    WINDOWS_GROUP_ONE_ARM_URL = "https://usea1-001-mssp.sentinelone.net/web/api/v2.1/update/agent/packages?limit=1&osArches=ARM64&platformType=windows&skip=1&sortBy=version&sortOrder=desc&status=ga"
+    """FILTER API PACKAGES REQUESTED BY MITS"""
+    WINDOWS_GROUP_ONE_X86_FILTER = "https://usea1-001-mssp.sentinelone.net/web/api/v2.1/update/agent/packages?fileExtension=.msi&limit=1&osArches=64%20bit&osTypes=windows&skip=1&sortBy=version&sortOrder=desc&status=ga"
+    WINDOWS_GROUP_ONE_ARM_FILTER= "https://usea1-001-mssp.sentinelone.net/web/api/v2.1/update/agent/packages?limit=1&osArches=ARM64&platformType=windows&skip=1&sortBy=version&sortOrder=desc&status=ga"
 
     WINDOWS_GROUP_ONE_NAME = "SentinelInstaller_windows_32bit_MSI_Latest_Group1.msi"
     WINDOWS_GROUP_TWO_NAME = "SentinelInstaller_windows_32bit_MSI_Latest_Group2.msi"
     MAC_GROUP_NAME = "SentinelInstaller_macos_Latest.pkg"
 
-    """NAME FOR THE NEW URLS"""
+    """NAME FOR THE NEW PACKAGES"""
     WINDOWS_GROUP_ONE_X86_NAME = "SentinelInstaller_windows_x86_Latest.msi"
     WINDOWS_GROUP_ONE_ARM_NAME = "SentinelInstaller_windows_ARM_Latest.exe"
+
+     """ Get the actual download link for the files """
+    response_X86 = requests.get(WINDOWS_GROUP_ONE_X86_FILTER)
+    response_X86_json = response_X86.json()
+    WINDOWS_GROUP_ONE_X86_URL = response_X86_json['data'][0]['link']  # Adjust if the structure is different
+
+    response_ARM = requests.get(WINDOWS_GROUP_ONE_ARM_FILTER)
+    response_ARM_json = response_ARM.json()
+    WINDOWS_GROUP_ONE_ARM_URL = response_ARM_json['data'][0]['link']  # Adjust if the structure is different
 
     print("I\'m running")
 
