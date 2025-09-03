@@ -18,7 +18,7 @@ def lambda_handler(event, context):
     WINDOWS_GROUP_TWO_URL = "https://usea1-001-mssp.sentinelone.net/web/api/v2.1/update/agent/packages?fileExtension=.msi&majorVersions=23.4&osArches=32 bit&osTypes=windows&sortBy=version&sortOrder=desc&status=ga"
     MAC_GROUP_URL = "https://usea1-001-mssp.sentinelone.net/web/api/v2.1/update/agent/packages?osTypes=macos&sortBy=version&sortOrder=desc&status=ga"
 
-     """NEW LINKS REQUESTED BY MITS"""
+    """NEW LINKS REQUESTED BY MITS"""
     WINDOWS_GROUP_ONE_X86_URL = "https://usea1-001-mssp.sentinelone.net/web/api/v2.1/update/agent/packages?fileExtension=.msi&limit=1&osArches=64%20bit&osTypes=windows&skip=1&sortBy=version&sortOrder=desc&status=ga"
     WINDOWS_GROUP_ONE_ARM_URL = "https://usea1-001-mssp.sentinelone.net/web/api/v2.1/update/agent/packages?limit=1&osArches=ARM64&platformType=windows&skip=1&sortBy=version&sortOrder=desc&status=ga"
 
@@ -57,7 +57,7 @@ def lambda_handler(event, context):
         """FILE FOR THE NEW URLS"""
         windows_group_one_X86_file = os.path.join(
             DOWNLOAD_DIR, WINDOWS_GROUP_ONE_X86_NAME)
-        download_file(WINDOWS_GROUP_ONE_x86_URL, windows_group_one_X86_file)
+        download_file(WINDOWS_GROUP_ONE_X86_URL, windows_group_one_X86_file)
         windows_group_one_ARM_file = os.path.join(
             DOWNLOAD_DIR, WINDOWS_GROUP_ONE_ARM_NAME)
         download_file(WINDOWS_GROUP_ONE_ARM_URL, windows_group_one_ARM_file)
