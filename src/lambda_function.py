@@ -3,7 +3,6 @@ from download import download_file
 import boto3
 
 # REPO_PATH = "./SentinelOne-agent"
-REPO_PATH = "git@github.com:RSM-DEFENSE-ENGINEERING/SentinelOne-agent.git"
 DOWNLOAD_DIR = "/tmp/downloads"         # Directory to save the downloaded files
 
 
@@ -67,14 +66,7 @@ def lambda_handler(event, context):
             Filename=windows_group_one_X86_file, Key=f"s1/{WINDOWS_GROUP_ONE_X86_NAME}", Bucket="s1-rsmd-installers")
         s3_client.upload_file(
             Filename=windows_group_one_ARM_file, Key=f"s1/{WINDOWS_GROUP_ONE_ARM_NAME}", Bucket="s1-rsmd-installers")
-      
-        
-        # ssh_key = get_ssh_key()
-        # setup_ssh_agent(ssh_key)
-        # print("SSH KEY RETRIEVED")
-        # repo = get_repo(REPO_PATH)
-        # commit_installers(repo)
-        # Add your file copying logic here if needed
+
         return {"status": "Success"}
     except Exception as e:
         print(f"Error: {e}")

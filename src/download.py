@@ -1,5 +1,7 @@
 import os
 import urllib3
+import json
+
 
 http = urllib3.PoolManager()
 # Configuration Constants
@@ -29,15 +31,17 @@ def download_file(url: str, dest: str) -> None:
     }
 
     print(f"Downloading: {url}")
-    print(headers['Authorization'])
     response = http.request('GET', url, headers=headers, preload_content=False)
+    api_res = json.loads(response.data)
+    response.release_conn()
+    link = api_res['data'][0]['link']
+    file_response = http.request('GET', link, headers=headers, preload_content=False)
 
     with open(dest, 'wb') as f:
         while True:
-            chunk = response.read(8192)
+            chunk = file_response.read(8192)
             if not chunk:
                 break
             f.write(chunk)
-
-    response.release_conn()
+    file_response.release_conn()
     print(f"Downloaded: {dest}")
